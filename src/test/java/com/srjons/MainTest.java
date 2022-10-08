@@ -2,28 +2,45 @@ package com.srjons;
 
 
 import org.junit.Assert;
-import org.junit.BeforeClass;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mock;
-import static org.powermock.api.mockito.PowerMockito.*;
-
-import org.mockito.Spy;
+import org.mockito.InjectMocks;
+import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
+
+import java.util.List;
+
+import static org.powermock.api.mockito.PowerMockito.doReturn;
+import static org.powermock.api.mockito.PowerMockito.when;
 
 @RunWith(PowerMockRunner.class)
 @PrepareForTest({StaticClass.class})
 public class MainTest {
 
-    static ChildClass childClass;
-    static ParentClass parentClass;
+    @InjectMocks
+    ChildClass childClass;
 
-    @BeforeClass
-    public static void init() {
+    ParentClass parentClass;
+    DatabaseRepo databaseRepo;
+
+    @Before
+    public void init() {
+        databaseRepo = PowerMockito.spy(new DatabaseRepo());
         parentClass = PowerMockito.spy(new ParentClass());
         childClass = PowerMockito.spy(new ChildClass());
+        MockitoAnnotations.initMocks(this);
+    }
+
+    @Test
+    public void test_DatabaseLayer() {
+        Mockito.doReturn(List.of("apple", "banana")).when(databaseRepo).findItems();
+        //when(databaseRepo.findItems()).thenReturn(List.of("apple", "banana"));
+        List<String> all = childClass.findAll();
+        System.out.println("all = " + all);
     }
 
     @Test
