@@ -40,4 +40,13 @@ public class MainTest {
         String actual = childClass.childMethod();
         Assert.assertEquals("hi", actual);
     }
+
+    @Test
+    public void test_privateMethod() throws Exception {
+        doReturn("hi-privateMethod").when(childClass, "privateMethod");
+        String actual = childClass.someTestForPrivateMethod();
+        Assert.assertEquals("hi-privateMethod", actual);
+    }
+
+
 }

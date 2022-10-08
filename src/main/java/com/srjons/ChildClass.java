@@ -7,4 +7,12 @@ public class ChildClass extends ParentClass {
     public String childMethod() {
         return parentMethod();
     }
+
+    public String someTestForPrivateMethod() {
+        return privateMethod();
+    }
+
+    public String privateMethod() {
+        return "privateMethod";
+    }
 }
