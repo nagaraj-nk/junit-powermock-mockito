@@ -1,6 +1,7 @@
 package com.srjons;
 
 import java.util.List;
+import java.util.function.Supplier;
 
 public class ChildClass extends ParentClass {
 
@@ -20,5 +21,9 @@ public class ChildClass extends ParentClass {
 
     public List<String> findAll() {
         return databaseRepo.findItems();
+    }
+
+    public String validateZipcode(String zipcode) {
+        return GeocodeApi.getAddress(zipcode);
     }
 }

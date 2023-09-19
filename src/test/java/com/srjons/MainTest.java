@@ -18,7 +18,7 @@ import static org.powermock.api.mockito.PowerMockito.doReturn;
 import static org.powermock.api.mockito.PowerMockito.when;
 
 @RunWith(PowerMockRunner.class)
-@PrepareForTest({StaticClass.class})
+@PrepareForTest({StaticClass.class, GeocodeApi.class})
 public class MainTest {
 
     @InjectMocks
@@ -33,6 +33,14 @@ public class MainTest {
         parentClass = PowerMockito.spy(new ParentClass());
         childClass = PowerMockito.spy(new ChildClass());
         MockitoAnnotations.initMocks(this);
+    }
+
+    @Test
+    public void testInnerObjectMock() {
+        PowerMockito.mockStatic(GeocodeApi.class);
+        Mockito.when(GeocodeApi.getAddress(Mockito.anyString())).thenReturn("valid");
+        String address = childClass.validateZipcode("123");
+        System.out.println("address = " + address);
     }
 
     @Test
